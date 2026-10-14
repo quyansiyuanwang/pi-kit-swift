@@ -33,6 +33,16 @@ struct AgentTextTests {
         #expect(AgentText.finalAnswer(in: messages) == "second")
     }
 
+    @Test("finalAnswer(in:) skips textless assistant turns")
+    func finalAnswerSkipsEmptyAssistant() {
+        let messages: [Message] = [
+            .assistant(Fixtures.assistant(text: "answer")),
+            .assistant(Fixtures.assistant(text: ""))
+        ]
+
+        #expect(AgentText.finalAnswer(in: messages) == "answer")
+    }
+
     @Test("finalAnswer(in:) is empty without an assistant message")
     func finalAnswerWithoutAssistant() {
         #expect(AgentText.finalAnswer(in: []) == "")

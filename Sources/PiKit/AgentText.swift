@@ -17,13 +17,15 @@ public enum AgentText {
         return result
     }
 
-    /// The text of the last assistant message in `messages`.
+    /// The text of the last assistant message that has non-empty text.
     ///
-    /// Returns `""` when there is no assistant message.
+    /// Tool-call-only assistant turns carry no text, so they are skipped.
+    /// Returns `""` when no assistant message has text.
     public static func finalAnswer(in messages: [Message]) -> String {
         for message in messages.reversed() {
             if case .assistant(let assistant) = message {
-                return text(of: assistant.content)
+                let text = text(of: assistant.content)
+                if !text.isEmpty { return text }
             }
         }
         return ""
