@@ -1,5 +1,7 @@
 # PiKit
 
+[![CI](https://github.com/quyansiyuanwang/pi-kit-swift/actions/workflows/ci.yml/badge.svg)](https://github.com/quyansiyuanwang/pi-kit-swift/actions/workflows/ci.yml)
+
 The **composition layer** for [`PiAI`](https://github.com/quyansiyuanwang/pi-ai-swift)
 and [`PiAgentCore`](https://github.com/quyansiyuanwang/pi-agent-swift).
 
