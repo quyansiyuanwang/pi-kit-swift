@@ -50,7 +50,10 @@ public enum AgentKit {
         let configured = ConfiguredProvider(
             provider,
             temperature: configuration.temperature,
-            maxTokens: configuration.maxTokens
+            maxTokens: configuration.maxTokens,
+            topP: configuration.topP,
+            frequencyPenalty: configuration.frequencyPenalty,
+            presencePenalty: configuration.presencePenalty
         )
         let options = AgentOptions(
             systemPrompt: configuration.systemPrompt,

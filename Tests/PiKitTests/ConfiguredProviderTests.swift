@@ -22,6 +22,28 @@ struct ConfiguredProviderTests {
         #expect(options.maxTokens == 128)
     }
 
+    @Test("injects sampling parameters into every request")
+    func injectsSamplingParameters() async throws {
+        let recorder = MockProvider()
+        let provider = ConfiguredProvider(
+            recorder,
+            topP: 0.9,
+            frequencyPenalty: 0.4,
+            presencePenalty: -0.2
+        )
+
+        try await drain(provider.stream(
+            model: Fixtures.model,
+            context: ChatContext(),
+            options: ChatOptions(apiKey: "key")
+        ))
+
+        let options = try #require(recorder.options.first)
+        #expect(options.topP == 0.9)
+        #expect(options.frequencyPenalty == 0.4)
+        #expect(options.presencePenalty == -0.2)
+    }
+
     @Test("configured values override caller-supplied options")
     func configuredValuesOverride() async throws {
         let recorder = MockProvider()

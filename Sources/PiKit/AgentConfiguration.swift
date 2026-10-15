@@ -29,6 +29,12 @@ public struct AgentConfiguration: Sendable {
     public var maxTokens: Int?
     /// Sampling temperature injected into every ``PiAI/ChatOptions``.
     public var temperature: Double?
+    /// Nucleus sampling parameter injected into every ``PiAI/ChatOptions``.
+    public var topP: Double?
+    /// Frequency penalty injected into every ``PiAI/ChatOptions``.
+    public var frequencyPenalty: Double?
+    /// Presence penalty injected into every ``PiAI/ChatOptions``.
+    public var presencePenalty: Double?
     /// System prompt sent with every request.
     public var systemPrompt: String
     /// Tools exposed to the model.
@@ -44,6 +50,9 @@ public struct AgentConfiguration: Sendable {
     ///   - contextWindow: Advertised context window. Defaults to `128_000`.
     ///   - maxTokens: Output-token cap. Defaults to `nil` (no cap).
     ///   - temperature: Sampling temperature. Defaults to `nil` (provider default).
+    ///   - topP: Nucleus sampling. Defaults to `nil`.
+    ///   - frequencyPenalty: Frequency penalty. Defaults to `nil`.
+    ///   - presencePenalty: Presence penalty. Defaults to `nil`.
     ///   - systemPrompt: System prompt. Defaults to `""`.
     ///   - tools: Tools exposed to the model. Defaults to `[]`.
     public init(
@@ -54,6 +63,9 @@ public struct AgentConfiguration: Sendable {
         contextWindow: Int = 128_000,
         maxTokens: Int? = nil,
         temperature: Double? = nil,
+        topP: Double? = nil,
+        frequencyPenalty: Double? = nil,
+        presencePenalty: Double? = nil,
         systemPrompt: String = "",
         tools: [any AgentTool] = []
     ) {
@@ -64,6 +76,9 @@ public struct AgentConfiguration: Sendable {
         self.contextWindow = contextWindow
         self.maxTokens = maxTokens
         self.temperature = temperature
+        self.topP = topP
+        self.frequencyPenalty = frequencyPenalty
+        self.presencePenalty = presencePenalty
         self.systemPrompt = systemPrompt
         self.tools = tools
     }
