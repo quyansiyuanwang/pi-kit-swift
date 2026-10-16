@@ -61,7 +61,8 @@ public enum AgentKit {
             model: model(configuration),
             tools: configuration.tools,
             provider: configured,
-            apiKey: configuration.apiKey
+            apiKey: configuration.apiKey,
+            maxToolRounds: configuration.maxToolRounds
         )
         return Agent(options: options)
     }

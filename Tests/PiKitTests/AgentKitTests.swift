@@ -1,3 +1,4 @@
+import Foundation
 import PiAI
 import PiAgentCore
 import Testing
@@ -99,5 +100,55 @@ struct AgentKitTests {
 
         // Construction must not require network access.
         _ = AgentKit.agent(configuration)
+    }
+
+    @Test("maxToolRounds is forwarded: 0 rounds executes no tools")
+    func maxToolRoundsForwarded() async throws {
+        let executed = Flag()
+        let tool = FunctionTool(
+            name: "echo",
+            description: "Echo a value",
+            parametersJSONSchema: .object(["type": "object", "properties": .object([:])])
+        ) { _, _ in
+            executed.set()
+            return ToolResult(text: "ran")
+        }
+        let assistant = AssistantMessage(
+            content: [.toolCall(ToolCall(id: "c1", name: "echo"))],
+            api: Fixtures.model.api,
+            provider: Fixtures.model.provider,
+            model: Fixtures.model.id,
+            stopReason: .toolUse,
+            timestamp: 0
+        )
+        let provider = MockProvider(responses: [assistant, Fixtures.assistant(text: "done")])
+        let configuration = AgentConfiguration(
+            baseURL: "https://api.example.test/v1",
+            model: "test-model",
+            maxToolRounds: 0,
+            tools: [tool]
+        )
+
+        let agent = AgentKit.makeAgent(configuration, provider: provider)
+        try await agent.prompt("hi")
+
+        #expect(executed.value == false)
+        #expect(provider.options.count == 1)
+    }
+}
+
+/// Thread-safe flag for `@Sendable` closures in tests.
+private final class Flag: @unchecked Sendable {
+    private let lock = NSLock()
+    private var flag = false
+
+    func set() {
+        lock.lock(); defer { lock.unlock() }
+        flag = true
+    }
+
+    var value: Bool {
+        lock.lock(); defer { lock.unlock() }
+        return flag
     }
 }

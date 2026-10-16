@@ -42,6 +42,8 @@ public struct AgentConfiguration: Sendable {
     public var presencePenalty: Double?
     /// System prompt sent with every request.
     public var systemPrompt: String
+    /// Maximum number of tool-execution rounds per prompt. Defaults to `8`.
+    public var maxToolRounds: Int
     /// Tools exposed to the model.
     public var tools: [any AgentTool]
 
@@ -60,6 +62,7 @@ public struct AgentConfiguration: Sendable {
     ///   - frequencyPenalty: Frequency penalty. Defaults to `nil`.
     ///   - presencePenalty: Presence penalty. Defaults to `nil`.
     ///   - systemPrompt: System prompt. Defaults to `""`.
+    ///   - maxToolRounds: Maximum tool-execution rounds. Defaults to `8`.
     ///   - tools: Tools exposed to the model. Defaults to `[]`.
     public init(
         baseURL: String,
@@ -74,6 +77,7 @@ public struct AgentConfiguration: Sendable {
         frequencyPenalty: Double? = nil,
         presencePenalty: Double? = nil,
         systemPrompt: String = "",
+        maxToolRounds: Int = 8,
         tools: [any AgentTool] = []
     ) {
         self.baseURL = baseURL
@@ -88,6 +92,7 @@ public struct AgentConfiguration: Sendable {
         self.frequencyPenalty = frequencyPenalty
         self.presencePenalty = presencePenalty
         self.systemPrompt = systemPrompt
+        self.maxToolRounds = maxToolRounds
         self.tools = tools
     }
 }
