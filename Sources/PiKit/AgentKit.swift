@@ -14,12 +14,13 @@ public enum AgentKit {
 
     /// Builds a ``PiAI/Model`` from the configuration.
     ///
-    /// The model's `api` is always `"openai-completions"`.
+    /// The model's `api` comes from ``AgentConfiguration/api`` and its
+    /// `provider` label from ``AgentConfiguration/provider``.
     public static func model(_ configuration: AgentConfiguration) -> Model {
         Model(
             id: configuration.model,
             name: configuration.model,
-            api: "openai-completions",
+            api: configuration.api,
             provider: configuration.provider,
             baseURL: configuration.baseURL,
             contextWindow: configuration.contextWindow,

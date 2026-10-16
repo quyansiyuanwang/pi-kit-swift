@@ -40,7 +40,8 @@ struct AgentKitTests {
         let model = AgentKit.model(configuration)
 
         #expect(model.maxTokens > 0)
-        #expect(model.provider == "deepseek")
+        #expect(model.api == "openai-completions")
+        #expect(model.provider == "openai-completions")
         #expect(model.contextWindow == 128_000)
     }
 

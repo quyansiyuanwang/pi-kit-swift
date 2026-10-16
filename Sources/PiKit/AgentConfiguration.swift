@@ -8,9 +8,9 @@ import PiAgentCore
 ///
 /// ```swift
 /// let configuration = AgentConfiguration(
-///     baseURL: "https://api.deepseek.com/v1",
-///     apiKey: ProcessInfo.processInfo.environment["DEEPSEEK_API_KEY"] ?? "",
-///     model: "deepseek-chat"
+///     baseURL: "https://api.openai.com/v1",
+///     apiKey: ProcessInfo.processInfo.environment["OPENAI_API_KEY"] ?? "",
+///     model: "gpt-4o-mini"
 /// )
 /// ```
 public struct AgentConfiguration: Sendable {
@@ -20,7 +20,12 @@ public struct AgentConfiguration: Sendable {
     public var apiKey: String
     /// Model id used in requests.
     public var model: String
-    /// Provider discriminator used by ``PiAI/Model``. Defaults to `deepseek`.
+    /// API protocol discriminator used by ``PiAI/Model``.
+    ///
+    /// One of `openai-completions`, `openai-responses`, `anthropic-messages`,
+    /// `google-generative-ai`. Defaults to `openai-completions`.
+    public var api: String
+    /// Provider label. Free-form; defaults to ``api``.
     public var provider: String
     /// Context window advertised by the model. Defaults to `128_000`.
     public var contextWindow: Int
@@ -46,7 +51,8 @@ public struct AgentConfiguration: Sendable {
     ///   - baseURL: Base URL of the OpenAI-compatible endpoint.
     ///   - apiKey: API key forwarded to the provider. Defaults to `""`.
     ///   - model: Model id used in requests.
-    ///   - provider: Provider discriminator. Defaults to `"deepseek"`.
+    ///   - api: API protocol discriminator. Defaults to `"openai-completions"`.
+    ///   - provider: Provider label. Defaults to `nil`, which uses `api`.
     ///   - contextWindow: Advertised context window. Defaults to `128_000`.
     ///   - maxTokens: Output-token cap. Defaults to `nil` (no cap).
     ///   - temperature: Sampling temperature. Defaults to `nil` (provider default).
@@ -59,7 +65,8 @@ public struct AgentConfiguration: Sendable {
         baseURL: String,
         apiKey: String = "",
         model: String,
-        provider: String = "deepseek",
+        api: String = "openai-completions",
+        provider: String? = nil,
         contextWindow: Int = 128_000,
         maxTokens: Int? = nil,
         temperature: Double? = nil,
@@ -72,7 +79,8 @@ public struct AgentConfiguration: Sendable {
         self.baseURL = baseURL
         self.apiKey = apiKey
         self.model = model
-        self.provider = provider
+        self.api = api
+        self.provider = provider ?? api
         self.contextWindow = contextWindow
         self.maxTokens = maxTokens
         self.temperature = temperature
