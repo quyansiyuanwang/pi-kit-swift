@@ -8,8 +8,8 @@ let package = Package(
         .library(name: "PiKit", targets: ["PiKit"])
     ],
     dependencies: [
-        .package(url: "https://github.com/quyansiyuanwang/pi-ai-swift.git", exact: "0.1.5"),
-        .package(url: "https://github.com/quyansiyuanwang/pi-agent-swift.git", exact: "0.1.4")
+        .package(url: "https://github.com/quyansiyuanwang/pi-ai-swift.git", exact: "0.1.6"),
+        .package(url: "https://github.com/quyansiyuanwang/pi-agent-swift.git", exact: "0.1.5")
     ],
     targets: [
         .target(
